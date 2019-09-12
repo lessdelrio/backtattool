@@ -22,8 +22,49 @@ const tatuadorSchema = new Schema({
     profilepic:String
 },{timestamps: true});
 
+const clienteSchema = new Schema({
+    nombre:{
+        type:String, 
+        unique:true
+    },
+    telefono:String,
+    correo: {
+        type:String,
+        unique:true
+    }
+},{timestamps: true});
+
+
+const citaSchema = new Schema({
+    cliente:{
+        type: [
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"Cliente"
+            }
+        ]
+    },
+    tatuador:{
+        type: [
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"Tatuador"
+            }
+        ]
+    },
+    dia: Number,
+    mes:Number,
+    hora:Number,
+    tatuaje:String,
+    precio: Number
+},{timestamps: true});
+
 const Tatuador = mongoose.model('Tatuador', tatuadorSchema);
+const Cliente = mongoose.model('Cliente', clienteSchema);
+const Cita = mongoose.model('Cita', citaSchema);
 
 module.exports = {
-    Tatuador
+    Tatuador,
+    Cliente,
+    Cita
 }

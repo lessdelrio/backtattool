@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const {Tatuador} = require('./tatuadores.js')
+const {Tatuador, Cliente, Cita} = require('./tatuadores.js')
 
 const PORT = process.env.PORT || 8080;
 
@@ -47,6 +47,37 @@ app.get('/tatuador/:id',(req,res)=>{
     .then(tatuador => tatuador ? res.status(200).send(tatuador): res.status(404) .send({message: "No se encontró al tatuador"}))
     .catch(err => res.status(409).send(err))
 
+});
+
+app.post('/create/cliente', (req, res) =>{
+    const {nombre, telefono, correo} = req.body;
+    const newCliente = Cliente ({
+        nombre,
+        telefono,
+        correo
+    });
+    newCliente.save((err, cliente)=>{
+        !err
+        ? response.status(201).send(cliente)
+        : response.status(400).send(err)
+    });
+});
+
+app.post('/create/cita', (req, res) => {
+    const {}= request.body;
+    const newCita = Cita({
+        cliente,
+        tatuador,
+        fecha, 
+        hora,
+        tatuaje,
+        precio
+    });
+    newCita.save((err, cita)=>{
+        !err
+        ? response.status(201).send(cita)
+        : response.status(400).send(err)
+    });
 });
 
 app.listen(PORT,()=>{
